@@ -15,7 +15,7 @@ import time
 start = time.time()
 def Input():
     # Read the data from the txt file
-    sample = pd.read_csv('Prostate-GE.csv',header=None)
+    sample = pd.read_csv('GLIOMA.csv',header=None)
     
     (N, L) = np.shape(sample)
     
@@ -27,8 +27,9 @@ def Input():
     
     # NewData = normalize(data)
     NewData = Pre_Data(data)
+    OriData = data.values
 
-    return NewData,label
+    return NewData,label,OriData
 def Pre_Data(data):
     [N,L] = np.shape(data)
     NewData = np.zeros((N,L))
@@ -71,7 +72,10 @@ def Feature_Dist(DC_means,DC_std,data,Var,dim,Corr):
     return DisC,Dist
 
 def KLD_Cal(data,i,j,Var,Corr):
-        
+    
+    #Var1 = np.var(data[:,i])# Var[i]
+    #Var2 = np.var(data[:,j])# Var[j]
+    
     Var1 = Var[i]
     Var2 = Var[j]
     
@@ -104,7 +108,7 @@ def Pseduo_Peaks(DisC, Dist, DC_Mean, DC_Std, data, fitness, StdF, gamma, Var):
     # Spread= np.max(Dist)
 
     # Search Stage of Pseduo Clusters at the temporal sample space
-    NeiRad = 0.4*max(Dist)
+    NeiRad = 0.15*max(Dist)
     # NeiRad = (StdF/gamma)
     i = 0
     marked = []
@@ -137,6 +141,7 @@ def Pseduo_Peaks(DisC, Dist, DC_Mean, DC_Std, data, fitness, StdF, gamma, Var):
             break
         
         i=i+1 # Expand the size of the pseduo cluster set by 1
+    C_Indices = Close_FCluster(PeakIndices, DisC, np.shape(DisC)[0])
     return PeakIndices,Pfitness,C_Indices
 
 def NeighborSearch(DisC, data, sample, P_indice, marked, radius, Var):
@@ -155,6 +160,13 @@ def NeighborSearch(DisC, data, sample, P_indice, marked, radius, Var):
     Indices = Cluster
     
     return Indices
+
+def Close_FCluster(FCluster,DisC,dim):
+    F_Indices = np.arange(dim)
+    for i in range(dim):
+        dist_fcluster = DisC[i,FCluster]
+        F_Indices[i] = FCluster[np.argmin(dist_fcluster)]
+    return F_Indices 
 
 def Sharing(fitness, indices):
     newfitness = fitness
@@ -251,6 +263,7 @@ def Pseduo_Merge(DisC, PeakIndices, PseDuoF, C_Indices, DC_Mean, DC_Std, data, f
     # Updated pseduo feature clusters information after merging
     FCluster = np.unique(NewPI)
     Ffitness = fitness[FCluster]
+    F_Indices = Close_FCluster(FCluster, DisC, np.shape(DisC)[0])
     return FCluster, Ffitness, F_Indices
 
 def Boundary_Points(DisC, F_Indices, data, Current, Neighbor):
@@ -275,7 +288,7 @@ def Boundary_Points(DisC, F_Indices, data, Current, Neighbor):
         BD = Current
     else:
         FI = np.argmin(D)
-    BD = TempCluster[FI]
+        BD = TempCluster[FI]
     
     return BD
 
@@ -324,7 +337,7 @@ def Psefitness_cal( PseP, sample, data, PseduoData, StdF, gamma):
     
 #--------------------------------------------------------------------------------------------------------------  
 if __name__ == '__main__':
-    [data,label] = Input()   
+    [data,label, OriData] = Input()   
     [N, dim] = np.shape(data)
 
     [DC_means, DC_std] = Distribution_Est(data,dim)  
@@ -334,7 +347,9 @@ if __name__ == '__main__':
     Corr = np.corrcoef(data.T)
 
     DisC,Dist =  Feature_Dist(DC_means,DC_std,data,Var,dim,Corr)
-
+    
+    end1 = time.time()
+    print('Distance Calculation Finished:',end1-start)
     #Dist = []
     
 #    for i in range(len(DC_means)):
@@ -369,9 +384,9 @@ if __name__ == '__main__':
     
     label = label.reshape(N,1)
     
-    Extract_Data = np.concatenate((data[:,SF],label),axis=1)
-    
+    Extract_Data = np.concatenate((OriData[:,SF],label),axis=1)
+    np.savetxt('Extract_GLIOMA2.txt',Extract_Data)
 #    np.savetxt('Extract_Pro.txt',Extract_Data)
-    end = time.time()
-    print('The total time in seconds:',end-start)
+    end2 = time.time()
+    print('The total time in seconds:',end2-start)
     
