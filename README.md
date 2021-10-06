@@ -2,7 +2,9 @@
  
 This project aims to perform an efficient feature selection on high-dimensional datasets through feature clustering. Two high-dimensional datasets are included here.
 
-For continuous feature selection, please use the FC_1.py file
+For continuous feature selection, please use the FC_1.py or FCpse.py files. 
+(Note: the FC_1.py file implements the same cluster merge procedure from discrete feature cluster analysis and it is much faster than the FCpse.py.
+The FCpse.py file utilizes the pseudo feature generation procedure and it took longer running time.)
 
 For discrete feature selection, please download the FC_2.py file with the entropy_estimators.py file.
 (Note: the entropy_estimators.py function is modified from the Greg Ver Steeg and the references are provided below:
