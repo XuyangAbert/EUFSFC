@@ -184,8 +184,10 @@ def Pseduo_Evolve(DisC, PeakIndices, PseDuoF, C_Indices, DC_Mean, DC_Std, data, 
     HistCluster = PeakIndices
     HistClusterF = PseDuoF
     while True:
-        # Call the merge function in each iteration
+        # Call the merge function in each iteration using pseudo feature generation strategy
         [Cluster,Cfitness,F_Indices] = Pseduo_Merge2(DisC, HistCluster, HistClusterF, C_Indices, DC_Mean, DC_Std, data, fitness, StdF, gamma, Var)
+        ## Call the merge function in each iteration using the boundary feature identification strategy
+        # [Cluster,Cfitness,F_Indices] = Pseduo_Merge1(DisC, HistCluster, HistClusterF, C_Indices, DC_Mean, DC_Std, data, fitness, StdF, gamma)
         # Check for the stablization of clutser evolution and exit the loop
         if len(np.unique(Cluster)) == len(np.unique(HistCluster)):
             break
@@ -242,14 +244,12 @@ def Pseduo_Merge2(DisC, PeakIndices, PseDuoF, C_Indices, DC_Mean, DC_Std, data, 
                         PseduoInstance[k,:] = TempInst
                     
                     PseData = PseduoGeneration(PseduoInstance,N)
-                    
                     PseFitness = Psefitness_cal(Var,PseduoInstance,sample,data,PseData,StdF,gamma)
                     
                     for t in range(len(PseFitness)):
                         if PseFitness[t]<0.85*min(CurrentFit,NeighborFit):
                             M=0 # Change the Merge flag
                             break
-                    
                     if M == 1:
                         ML.append([PeakIndices[i],PeakIndices[MinIndice]])
                         marked.append(PeakIndices[i])
@@ -363,7 +363,6 @@ def Boundary_Points(DisC, F_Indices, data, Current, Neighbor):
     else:
         FI = np.argmin(D)
         BD = TempCluster[FI]
-    
     return BD
 
 def PseduoGeneration(PseP,N):
@@ -376,9 +375,7 @@ def PseduoGeneration(PseP,N):
     Data = np.zeros((N,len(Pse_Mean)))
     
     for i in range(len(Pse_Mean)):
-        
         Data[:, i] = (np.repeat(Pse_Mean[i],N) + Pse_Std[i] * np.random.randn(N)).T
-    
     return Data
 
 def Psefitness_cal(Var, PseP, sample, data, PseduoData, StdF, gamma):
@@ -462,8 +459,7 @@ if __name__ == '__main__':
     label = label.reshape(N,1)
     
     Extract_Data = np.concatenate((OriData[:,SF],label),axis=1)
-    np.savetxt('Extract_MFEAT4.txt',Extract_Data)
-#    np.savetxt('Extract_Pro.txt',Extract_Data)
+    np.savetxt('Extract_GLIOMA4.txt',Extract_Data)
     end2 = time.time()
     print('The total time in seconds:',end2-start)
     
