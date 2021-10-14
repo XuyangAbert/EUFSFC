@@ -10,7 +10,9 @@ For discrete feature selection, please download the FC_2.py file with the entrop
 (Note: the entropy_estimators.py function is modified from the Greg Ver Steeg and the references are provided below:
 
 1.A Kraskov, H Steegbauer, P Grassberger. Estimating Mutual Information PRE 2004.
+
 2.Greg Ver Steeg and Aram Galstyan Information-Theoretic Measures of Influence Based on Content Dynamics. WSDM, 2013.
+
 3.Greg Ver Steeg and Aram Galstyan Information Transfer in Social Media. WWW, 2012.)
 
 Please cite the following article for any use or modifications of this project.
