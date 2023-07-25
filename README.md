@@ -1,6 +1,12 @@
 # EUFSFC:
  
-This project aims to perform an efficient feature selection on high-dimensional datasets through feature clustering. Two high-dimensional datasets are included here.
+This project aims to perform an efficient feature selection on high-dimensional datasets through feature clustering. Two high-dimensional datasets are included here. (A more organized code implementation will come soon with a jupter notebook example)
+
+Several observations can be made as follows:
+
+1. As an unsupervised FS method, EUFSFC aims to solve the curse of dimensionality by reducing the redundancy among features and thus can potentially eliminate some useful features, which may not be competitive to supervised FS approaches on some datasets. Therefore, the comparison is made only with unsupervised approaches.
+2. EUFSFC tends to select more features than supervised FS methods since it only considers the redundancy among features.
+3. Possible extensions of EUFSFC can be made on incorporating the pseduo label information using self-supervised learning or directly including the label information into the selection module.
 
 For continuous feature selection, please use the FC_1.py or FCpse.py files. 
 (Note: the FC_1.py file implements the same cluster merge procedure from discrete feature cluster analysis and it is much faster than the FCpse.py.
@@ -18,3 +24,7 @@ For discrete feature selection, please download the FC_2.py file with the entrop
 Please cite the following article for any use or modifications of this project.
 
 Yan, X., Nazmi, S., Erol, B. A., Homaifar, A., Gebru, B., & Tunstel, E. (2020). An efficient unsupervised feature selection procedure through feature clustering. Pattern Recognition Letters, 131, 277-284.
+
+Several follow-up research outcomes can be found below:
+1. Yan, X., Homaifar, A., Sarkar, M., Lartey, B., & Gupta, K. D. (2022). An Online Unsupervised Streaming Features Selection Through Dynamic Feature Clustering. IEEE Transactions on Artificial Intelligence.
+2. Zhou, P., Zhang, T., Zhao, L., Qi, Y., Chang, Y., & Bai, L. (2023). Pre-clustering active learning method for automatic classification of building structures in urban areas. Engineering Applications of Artificial Intelligence, 123, 106382.
