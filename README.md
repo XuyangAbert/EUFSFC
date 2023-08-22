@@ -27,4 +27,4 @@ Yan, X., Nazmi, S., Erol, B. A., Homaifar, A., Gebru, B., & Tunstel, E. (2020). 
 
 Several follow-up research outcomes can be found below:
 1. Yan, X., Homaifar, A., Sarkar, M., Lartey, B., & Gupta, K. D. (2022). An Online Unsupervised Streaming Features Selection Through Dynamic Feature Clustering. IEEE Transactions on Artificial Intelligence.
-2. Zhou, P., Zhang, T., Zhao, L., Qi, Y., Chang, Y., & Bai, L. (2023). Pre-clustering active learning method for automatic classification of building structures in urban areas. Engineering Applications of Artificial Intelligence, 123, 106382.
+2. Yan, X., Sarkar, M., Gebru, B., Nazmi, S., & Homaifar, A. (2021, October). A supervised feature selection method for mixed-type data using density-based feature clustering. In 2021 IEEE International Conference on Systems, Man, and Cybernetics (SMC) (pp. 1900-1905). IEEE.
